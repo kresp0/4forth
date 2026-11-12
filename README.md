@@ -34,6 +34,11 @@ and [EBASIC](https://github.com/kresp0/ebasic), which in turn follow the
 
 On-screen text is in English; key names are the Spanish legends printed on the keys.
 
+**Machines.** Written for the Spanish VTech Genio 2000, and tested in MAME so far. It will most likely also work on its
+relatives the Genius 4000, Genius LEADER 4000 Quadro, Genius LEADER 4004 Quadro L and PreComputer
+Power Pad, but it has not been tried on them; their keyboards carry other legends, so the key names
+used here and some typed characters may differ.
+
 ## A first session
 ```
 : SQ DUP * ;  ok

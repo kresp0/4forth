@@ -1,0 +1,867 @@
+# Guide shown by the AYUDA (HELP) key. "@TITLE" starts an entry, the following lines are its text
+# (joined with spaces; an empty line starts a new line on the screen), "=..." is the example that
+# INTRO takes (the editor inserts it as a line, the command line types it).
+# Lines starting with "#" are comments. An entry whose title is a word of the dictionary is that
+# word's page: gen_help.py checks that every word has one. Key names are the Spanish legends.
+# Copyright (C) 2026 Santiago Crespo
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+@Start here
+4Forth: type Forth at the command line, or write a program in the editor and LOAD or RUN it.
+RESPUESTA switches between them. AYUDA on a word opens its page.
+=2 3 + .
+
+@Using the guide
+Ü or ; (or RETROCESO, AVANCE) move. A key jumps to the words from it. INTRO opens a page; there it takes the example. RESPUESTA goes back.
+
+@Forth in brief
+Words are separated by spaces. A number goes on the stack; a word takes its values from the stack and leaves results there. ( a b -- c ): a page's stack, before and after.
+=10 20 + 3 * .
+
+@Command line
+Each line runs when you press INTRO and ends in "ok". ALT+Ü brings back the last line. Errors empty the stack.
+RESPUESTA: the editor. RESPUESTA while a word runs stops it.
+
+@Editor keys
+ALT+Ü, ALT+;: line up, down. RETROCESO, AVANCE; with ALT: start, end. BORRAR, DEL (at the ends they join lines). INTRO splits the line and keeps the indent. SHIFT+AYUDA: TAB.
+
+@Programs
+Write the program in the editor. LOAD forgets the words defined before and reads the whole text. RUN does the same and then runs the last word of the text.
+=: MAIN ." Hello" CR ;
+
+@Errors
+"WORD ?": unknown word. During LOAD the line of the error is shown; the QUE SOY key goes there in the editor.
+Errors empty the stack and drop a half-made definition.
+
+@Activity keys
+Down each column: : ; DUP DROP SWAP / OVER ROT IF ELSE THEN / DO LOOP I BEGIN UNTIL / @ ! . ." CR / EMIT KEY VARIABLE CONSTANT .S / ( page up, page down, LINE, last error.
+
+@Panel commands
+Column 7: LOAD, RUN, command line, WORDS, LOCATE.
+Column 8: NIVEL line numbers on/off, 1 JUGADOR inserts a line, 2 JUGADORES deletes it.
+
+@Defining words
+: NAME ... ; defines a word. VARIABLE V, n CONSTANT C, CREATE T n ALLOT. Names have up to 31 characters, any case.
+=: SQUARE DUP * ;
+
+@Control
+In a definition: IF ELSE THEN, BEGIN UNTIL, BEGIN AGAIN, BEGIN WHILE REPEAT, DO LOOP, DO +LOOP, ?DO. I and J are the loop indexes.
+=: T 5 0 DO I . LOOP ;
+
+@Numbers
+Numbers are 16 bits: -32768 to 32767, or 0 to 65535 unsigned. In BASE (10 at start): HEX DECIMAL. $FF hex, #10 decimal, %101 binary, 'A' a character.
+=$FF . %1010 .
+
+@Flags
+Comparisons give -1 (true) or 0 (false). IF takes any value other than 0 as true.
+=3 4 < .
+
+@Text and screen
+The LCD has 4 rows of 20. PAGE clears, n m AT-XY places the cursor, EMIT TYPE ." print. Output scrolls up. KEY waits for a key.
+=PAGE ." Hi" CR
+
+@Key codes
+KEY: letters and signs as typed; INTRO 13, BORRAR 8, DEL 127, RETROCESO 136, AVANCE 137, ALT+; 138, ALT+Ü 139, AYUDA 142, panel 192-213 and 240-255. RESPUESTA stops the program.
+=KEY .
+
+@Sound and LED
+BEEP. hz ms TONE plays a note (interrupts off while it plays). flag LED sets the caps-lock LED.
+=440 500 TONE
+
+@Glyphs
+8 user characters: addr n GLYPH sets glyph n from 8 bytes (5 dots each). Glyph n shows with n EMIT (0-6) or 15 EMIT (7). 0-3 hold Á Í Ó Ú.
+=CREATE G 4 C, 14 C, 31 C, 14 C, 4 C, 0 C, 0 C, 0 C,
+
+@Memory
+Text: C560-CFFF. Dictionary: D000-DA5F; PAD 64 bytes after HERE. Stacks: 62 cells each way. The text and the words are lost at power-off.
+=UNUSED .
+
+@Limits
+No floating point, no files, no doubles beyond UM* UM/MOD M* SM/REM. Lines up to 250 characters. Division is symmetric (towards 0).
+
+@OFF and BYE
+OFF switches the Genio off at any time (all is lost). BYE goes back to the Genio's menu.
+
+#--------------------------------------------------------------- stack
+
+@DUP
+( n -- n n )
+Copies the top of the stack.
+=5 DUP . .
+
+@DROP
+( n -- )
+Discards the top of the stack.
+=1 2 DROP .
+
+@SWAP
+( a b -- b a )
+Exchanges the top two.
+=1 2 SWAP . .
+
+@OVER
+( a b -- a b a )
+Copies the second to the top.
+=1 2 OVER .S
+
+@ROT
+( a b c -- b c a )
+Brings the third to the top.
+=1 2 3 ROT .S
+
+@-ROT
+( a b c -- c a b )
+Sends the top under the next two.
+=1 2 3 -ROT .S
+
+@NIP
+( a b -- b )
+Discards the second.
+=1 2 NIP .S
+
+@TUCK
+( a b -- b a b )
+Copies the top under the second.
+=1 2 TUCK .S
+
+@?DUP
+( n -- n n | 0 )
+Copies the top if it is not zero.
+=0 ?DUP .S
+
+@PICK
+( xn .. x0 n -- xn .. x0 xn )
+Copies the item n down (0 PICK is DUP).
+=10 20 30 2 PICK .
+
+@2DUP
+( a b -- a b a b )
+=1 2 2DUP .S
+
+@2DROP
+( a b -- )
+=1 2 3 2DROP .S
+
+@2SWAP
+( a b c d -- c d a b )
+=1 2 3 4 2SWAP .S
+
+@2OVER
+( a b c d -- a b c d a b )
+=1 2 3 4 2OVER .S
+
+@DEPTH
+( -- n )
+The number of items on the stack.
+=1 2 3 DEPTH .
+
+@>R
+( n -- ) ( R: -- n )
+Moves the top to the return stack. In a definition only; take it back before ; or a loop's end.
+=: T >R 1 R> ;
+
+@R>
+( -- n ) ( R: n -- )
+Takes back a value moved with >R.
+=: T >R 1 R> ;
+
+@R@
+( -- n ) ( R: n -- n )
+Copies the top of the return stack.
+=: T >R R@ R> ;
+
+@.S
+( -- )
+Shows the stack, bottom first, without changing it: <depth> items.
+=1 2 3 .S
+
+#--------------------------------------------------------------- arithmetic
+
+@+
+( a b -- a+b )
+=2 3 + .
+
+@-
+( a b -- a-b )
+=10 3 - .
+
+@*
+( a b -- a*b )
+16-bit product.
+=6 7 * .
+
+@/
+( a b -- a/b )
+Quotient, rounded towards 0. Division by 0 is an error.
+=-7 2 / .
+
+@MOD
+( a b -- rest )
+The rest of a/b; its sign is a's.
+=7 3 MOD .
+
+@/MOD
+( a b -- rest quot )
+=7 3 /MOD . .
+
+@*/
+( a b c -- a*b/c )
+The product is kept in 32 bits.
+=1000 355 113 */ .
+
+@*/MOD
+( a b c -- rest quot )
+a*b/c with a 32-bit product.
+=1000 355 113 */MOD . .
+
+@UM*
+( u1 u2 -- ud )
+Unsigned 32-bit product (two cells, high on top).
+=1000 1000 UM* . .
+
+@M*
+( n1 n2 -- d )
+Signed 32-bit product.
+=-1000 1000 M* . .
+
+@UM/MOD
+( ud u -- rest quot )
+Unsigned 32-bit by 16-bit division.
+=1000 1000 UM* 31 UM/MOD . .
+
+@SM/REM
+( d n -- rest quot )
+Signed 32-bit by 16-bit division, towards 0.
+=-100 -1 7 SM/REM . .
+
+@1+
+( n -- n+1 )
+=5 1+ .
+
+@1-
+( n -- n-1 )
+=5 1- .
+
+@2+
+( n -- n+2 )
+=5 2+ .
+
+@2-
+( n -- n-2 )
+=5 2- .
+
+@2*
+( n -- n*2 )
+=5 2* .
+
+@2/
+( n -- n/2 )
+Shift right keeping the sign.
+=-9 2/ .
+
+@NEGATE
+( n -- -n )
+=5 NEGATE .
+
+@ABS
+( n -- |n| )
+=-5 ABS .
+
+@MIN
+( a b -- min )
+=3 8 MIN .
+
+@MAX
+( a b -- max )
+=3 8 MAX .
+
+@AND
+( a b -- a&b )
+Bitwise and.
+=12 10 AND .
+
+@OR
+( a b -- a|b )
+Bitwise or.
+=12 10 OR .
+
+@XOR
+( a b -- a^b )
+Bitwise exclusive or.
+=12 10 XOR .
+
+@INVERT
+( n -- ~n )
+All bits inverted.
+=0 INVERT .
+
+@LSHIFT
+( n u -- n<<u )
+=1 4 LSHIFT .
+
+@RSHIFT
+( n u -- n>>u )
+Zeros come in from the left.
+=256 4 RSHIFT .
+
+@CELLS
+( n -- n*2 )
+Bytes in n cells.
+=10 CELLS .
+
+@CELL+
+( a -- a+2 )
+=HERE CELL+ U.
+
+#--------------------------------------------------------------- comparison
+
+@=
+( a b -- flag )
+=3 3 = .
+
+@<>
+( a b -- flag )
+=3 4 <> .
+
+@<
+( a b -- flag )
+Signed.
+=-1 1 < .
+
+@>
+( a b -- flag )
+Signed.
+=5 2 > .
+
+@U<
+( u1 u2 -- flag )
+Unsigned.
+=-1 1 U< .
+
+@U>
+( u1 u2 -- flag )
+Unsigned.
+=-1 1 U> .
+
+@0=
+( n -- flag )
+True if n is 0; also a logical not.
+=0 0= .
+
+@0<>
+( n -- flag )
+=5 0<> .
+
+@0<
+( n -- flag )
+=-3 0< .
+
+@0>
+( n -- flag )
+=3 0> .
+
+@WITHIN
+( n lo hi -- flag )
+True if lo <= n < hi.
+=5 1 10 WITHIN .
+
+@TRUE
+( -- -1 )
+=TRUE .
+
+@FALSE
+( -- 0 )
+=FALSE .
+
+#--------------------------------------------------------------- memory
+
+@@
+( addr -- n )
+Reads the cell at addr.
+=VARIABLE X 7 X ! X @ .
+
+@!
+( n addr -- )
+Writes n into the cell at addr.
+=VARIABLE X 7 X ! X ?
+
+@C@
+( addr -- c )
+Reads a byte.
+=HERE C@ .
+
+@C!
+( c addr -- )
+Writes a byte.
+=65 PAD C! PAD C@ EMIT
+
+@+!
+( n addr -- )
+Adds n to the cell at addr.
+=VARIABLE X 5 X +! X ?
+
+@?
+( addr -- )
+Prints the cell at addr.
+=BASE ?
+
+@FILL
+( addr n c -- )
+n bytes from addr set to c.
+=PAD 5 42 FILL PAD 5 TYPE
+
+@ERASE
+( addr n -- )
+n bytes from addr set to 0.
+=PAD 8 ERASE
+
+@MOVE
+( from to n -- )
+Copies n bytes; the areas may overlap.
+=PAD 1+ PAD 4 MOVE
+
+@COUNT
+( a -- a+1 n )
+The text of a counted string (its first byte is the length).
+
+@DUMP
+( addr n -- )
+Shows n bytes in hex, four per line. A key shows more.
+=HERE 16 DUMP
+
+@HERE
+( -- addr )
+The first free byte of the dictionary.
+=HERE U.
+
+@PAD
+( -- addr )
+A 64-byte area for text, 64 bytes after HERE. It moves when the dictionary grows.
+=PAD U.
+
+@UNUSED
+( -- n )
+Free bytes in the dictionary.
+=UNUSED .
+
+@,
+( n -- )
+Compiles n into the dictionary (2 bytes).
+=CREATE T 1 , 2 , T 2+ ?
+
+@C,
+( c -- )
+Compiles a byte.
+=CREATE T 7 C, T C@ .
+
+@ALLOT
+( n -- )
+Reserves n bytes after HERE.
+=CREATE BUF 20 ALLOT
+
+#--------------------------------------------------------------- defining and compiling
+
+@:
+( "name" -- )
+Starts a definition: the words up to ; are compiled, not run.
+=: GREET ." Hello" ;
+
+@;
+( -- )
+Ends a definition, which can then be used.
+=: GREET ." Hello" ;
+
+@VARIABLE
+( "name" -- )
+A cell; the name gives its address.
+=VARIABLE SCORE
+
+@CONSTANT
+( n "name" -- )
+The name gives n.
+=100 CONSTANT LIMIT
+
+@CREATE
+( "name" -- )
+A word that gives the address of the data that follows (, C, ALLOT).
+=CREATE T 1 , 2 , 3 ,
+
+@DOES>
+( -- )
+In a defining word: what the words it creates do with their data address.
+=: CONST CREATE , DOES> @ ;
+
+@IMMEDIATE
+( -- )
+Makes the last word run even while compiling.
+
+@[
+( -- )
+Stops compiling, to run words inside a definition.
+=: T [ 2 3 + ] LITERAL . ;
+
+@]
+( -- )
+Compiles again after [.
+=: T [ 2 3 + ] LITERAL . ;
+
+@LITERAL
+( n -- )
+In a definition: compiles n.
+=: T [ 2 3 + ] LITERAL . ;
+
+@'
+( "name" -- xt )
+The execution token of a word.
+=' DUP .
+
+@[']
+( "name" -- )
+In a definition: compiles the xt of a word as a number.
+=: T ['] DUP EXECUTE ;
+
+@EXECUTE
+( xt -- )
+Runs the word given by its token.
+=2 ' DUP EXECUTE .S
+
+@POSTPONE
+( "name" -- )
+In a definition: compiles the compiling of a word, for new immediate words.
+=: ENDIF POSTPONE THEN ; IMMEDIATE
+
+@RECURSE
+( -- )
+Calls the word being defined.
+=: FACT DUP 1 > IF DUP 1- RECURSE * THEN ;
+
+@EXIT
+( -- )
+Leaves the definition now (in a DO loop: UNLOOP first).
+=: T 1 . EXIT 2 . ;
+
+@STATE
+( -- addr )
+A variable: 0 interpreting, -1 compiling.
+
+@FORGET
+( "name" -- )
+Forgets that word and every word defined after it.
+=FORGET SQUARE
+
+@EMPTY
+( -- )
+Forgets every word you defined.
+=EMPTY
+
+@WORDS
+( -- )
+Lists the words, newest first. A key shows more.
+=WORDS
+
+#--------------------------------------------------------------- control
+
+@IF
+( flag -- )
+flag IF ... THEN, or flag IF ... ELSE ... THEN: the first part runs if flag is not 0.
+=: T 0< IF ." neg" THEN ;
+
+@ELSE
+( -- )
+The part of IF that runs when the flag is 0.
+=: T 0< IF ." neg" ELSE ." pos" THEN ;
+
+@THEN
+( -- )
+Ends an IF.
+=: T 0= IF ." zero" THEN ;
+
+@BEGIN
+( -- )
+Starts a loop: BEGIN ... flag UNTIL, BEGIN ... AGAIN, BEGIN ... flag WHILE ... REPEAT.
+=: T 5 BEGIN DUP . 1- DUP 0= UNTIL DROP ;
+
+@UNTIL
+( flag -- )
+Goes back to BEGIN while flag is 0.
+=: T 0 BEGIN 1+ DUP 10 = UNTIL . ;
+
+@AGAIN
+( -- )
+Goes back to BEGIN for ever (RESPUESTA stops it).
+=: T BEGIN KEY EMIT AGAIN ;
+
+@WHILE
+( flag -- )
+In BEGIN ... WHILE ... REPEAT: leaves the loop if flag is 0.
+=: T 1 BEGIN DUP 100 < WHILE 2* REPEAT . ;
+
+@REPEAT
+( -- )
+Goes back to BEGIN.
+=: T 1 BEGIN DUP 100 < WHILE 2* REPEAT . ;
+
+@DO
+( limit start -- )
+DO ... LOOP runs with I from start to limit-1.
+=: T 10 0 DO I . LOOP ;
+
+@?DO
+( limit start -- )
+Like DO, but nothing runs if limit = start.
+=: T 0 ?DO I . LOOP ;
+
+@LOOP
+( -- )
+Adds 1 to the index and goes back to DO until it reaches the limit.
+=: T 3 0 DO I . LOOP ;
+
+@+LOOP
+( n -- )
+Adds n to the index; ends when it crosses the limit.
+=: T 0 10 DO I . -2 +LOOP ;
+
+@I
+( -- n )
+The index of the innermost DO loop.
+=: T 4 1 DO I . LOOP ;
+
+@J
+( -- n )
+The index of the next outer DO loop.
+=: T 3 0 DO 3 0 DO J . LOOP LOOP ;
+
+@LEAVE
+( -- )
+Leaves the DO loop now.
+=: T 100 0 DO I . I 5 = IF LEAVE THEN LOOP ;
+
+@UNLOOP
+( -- )
+Drops the loop's data, before EXIT inside a loop.
+=: T 9 0 DO I 3 = IF UNLOOP EXIT THEN I . LOOP ;
+
+@ABORT
+( -- )
+Stops the program and empties the stack.
+
+@ABORT"
+( flag "text" -- )
+In a definition: if flag is not 0, stops with the text as the error.
+=: T 0= ABORT" zero!" ;
+
+#--------------------------------------------------------------- text
+
+@."
+( "text" -- )
+Prints the text up to the next ".
+=." Hello"
+
+@S"
+( "text" -- addr n )
+The text up to the next ".
+=S" Genio" TYPE
+
+@.(
+( "text" -- )
+Prints the text up to ) at once, even while compiling.
+=.( LOADING...)
+
+@(
+( "text" -- )
+A comment up to ).
+=: SQ ( n -- n*n ) DUP * ;
+
+@\
+( -- )
+A comment to the end of the line.
+=\ comment
+
+@CHAR
+( "c" -- c )
+The code of a character.
+=CHAR A .
+
+@[CHAR]
+( "c" -- )
+In a definition: compiles the code of a character.
+=: T [CHAR] * EMIT ;
+
+@EMIT
+( c -- )
+Prints a character. 13 or 10: new line, 8 back, 7 beep, 12 clear.
+=42 EMIT
+
+@TYPE
+( addr n -- )
+Prints n characters.
+=S" abc" TYPE
+
+@CR
+( -- )
+New line.
+=CR ." two"
+
+@SPACE
+( -- )
+Prints a space.
+
+@SPACES
+( n -- )
+Prints n spaces.
+=5 SPACES ." x"
+
+@PAGE
+( -- )
+Clears the screen.
+=PAGE
+
+@AT-XY
+( col row -- )
+Moves the cursor: col 0-19, row 0-3.
+=PAGE 8 2 AT-XY ." *"
+
+@.
+( n -- )
+Prints n and a space.
+=-5 .
+
+@U.
+( u -- )
+Prints u, unsigned.
+=-1 U.
+
+@.R
+( n w -- )
+Prints n right-aligned in w columns.
+=7 4 .R
+
+@U.R
+( u w -- )
+Unsigned, right-aligned in w columns.
+=7 4 U.R
+
+@BASE
+( -- addr )
+The variable of the number base (2-36).
+=5 2 BASE ! . DECIMAL
+
+@HEX
+( -- )
+Numbers in base 16.
+=HEX FF . DECIMAL
+
+@DECIMAL
+( -- )
+Numbers in base 10.
+=DECIMAL
+
+@<#
+( -- )
+Starts a number's text: <# # #S HOLD SIGN #> on a 32-bit value.
+=: T 0 <# # # [CHAR] : HOLD #S #> TYPE ;
+
+@#
+( ud -- ud' )
+Adds the next digit to the text.
+=1234 0 <# # # #> TYPE
+
+@#S
+( ud -- 0 0 )
+Adds all the digits that are left.
+=1234 0 <# #S #> TYPE
+
+@HOLD
+( c -- )
+Adds a character to the text.
+=5 0 <# #S CHAR $ HOLD #> TYPE
+
+@SIGN
+( n -- )
+Adds "-" if n is negative.
+=: T DUP ABS 0 <# #S ROT SIGN #> TYPE ;
+
+@#>
+( ud -- addr n )
+Ends the text; TYPE prints it.
+=42 0 <# #S #> TYPE
+
+#--------------------------------------------------------------- input
+
+@KEY
+( -- c )
+Waits for a key and gives its code (see Key codes).
+=KEY .
+
+@KEY?
+( -- flag )
+True if a key is waiting (KEY reads it). Call it about every 10 ms for auto-repeat to work as at the prompt.
+=: T BEGIN KEY? UNTIL KEY . ;
+
+@ACCEPT
+( addr n -- n' )
+Reads a line of at most n characters into addr, edited as at the prompt.
+=PAD 20 ACCEPT PAD SWAP TYPE
+
+#--------------------------------------------------------------- the Genio
+
+@MS
+( n -- )
+Waits about n milliseconds.
+=1000 MS
+
+@BEEP
+( -- )
+A short beep.
+=BEEP
+
+@TONE
+( hz ms -- )
+Plays a square wave (20-9999 Hz; 0 is silence). hz*ms must stay under 32 million.
+=262 300 TONE 330 300 TONE
+
+@LED
+( flag -- )
+Caps-lock LED on (flag not 0) or off.
+=1 LED
+
+@GLYPH
+( addr n -- )
+Sets user character n (0-7) from 8 bytes, one per row, 5 dots each.
+=CREATE G 4 C, 14 C, 31 C, 14 C, 4 C, 0 C, 0 C, 0 C, G 5 GLYPH 5 EMIT
+
+#--------------------------------------------------------------- the system
+
+@LOAD
+( -- )
+EMPTY, then reads the editor's text as if typed. Ends the command line.
+=LOAD
+
+@RUN
+( -- )
+LOAD, then runs the last word of the text.
+=RUN
+
+@EDIT
+( -- )
+Goes to the editor.
+=EDIT
+
+@LINE
+( "n" -- )
+The editor at line n (counting from 1).
+=LINE 1
+
+@LOCATE
+( "text" -- )
+The editor at the next line containing the text.
+=LOCATE : MAIN
+
+@NEW
+( -- )
+Erases the editor's text, after INTRO.
+=NEW
+
+@BYE
+( -- )
+Back to the Genio's menu (the text is lost).

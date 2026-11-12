@@ -1,0 +1,55 @@
+# Errors: stack and return stack overflow in loops, division, dictionary, nesting; break and OFF
+wait 1.5
+type : T BEGIN 1 AGAIN ; T\n
+wait 0.5
+dump dsfull
+expect 2 Stack full
+type DEPTH .\n
+wait 0.3
+expect 2 DEPTH . 0  ok
+type : R RECURSE ; R\n
+wait 0.5
+dump rsfull
+expect 2 Return stack full
+type 5 0 /\n
+wait 0.3
+expect 2 Division error
+type 30000 ALLOT\n
+wait 0.3
+expect 2 Dictionary full
+type : X 1 IF ;\n
+wait 0.3
+dump unbalanced
+expect 2 Unbalanced control
+type X\n
+wait 0.3
+expect 2 X ?
+type : Y 1 . ; Y\n
+wait 0.3
+expect 2 : Y 1 . ; Y 1  ok
+type FORGET DUP\n
+wait 0.3
+expect 2 Word in ROM
+type 0 ABORT" boom"\n
+wait 0.3
+dump abortq_interp
+expect 2 Compile only
+type : Z ABORT" boom" ; 1 Z\n
+wait 0.3
+dump abortq
+expect 2 boom
+type : FOREVER BEGIN AGAIN ; FOREVER\n
+wait 1
+hold RESPUESTA 0.3
+wait 0.5
+dump break
+expect 2 Break
+type 2 3 + .\n
+wait 0.3
+expect 2 2 3 + . 5  ok
+type FOREVER\n
+wait 1
+hold OFF 0.2
+wait 0.3
+expectpc C300-C37F
+quit

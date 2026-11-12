@@ -1,0 +1,7 @@
+# TONE: 440 Hz and 1000 Hz for one second each (the WAV is checked by tests/check_wav.py)
+wait 1.5
+type 440 1000 TONE 1000 1000 TONE 262 250 TONE 330 250 TONE 392 250 TONE 523 500 TONE\n
+wait 4.5
+dump after
+expect 2  ok
+quit

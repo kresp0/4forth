@@ -1,0 +1,18 @@
+# Snapshots for the README (not a test)
+wait 1.5
+load demo.fs
+type \e
+wait 0.3
+snap
+type \e
+wait 0.3
+type RUN\n
+wait 2
+snap
+type : SQ DUP * ; 12 SQ .\n
+wait 1
+snap
+type DUP\h
+wait 0.5
+snap
+quit

@@ -1,0 +1,23 @@
+# Every arithmetic, stack, memory and control word against its expected result
+wait 1.5
+load words1.fs
+type LOAD\n
+wait 3
+dump result1
+expect 2 LOAD ERRORS 0  ok
+load words2.fs
+type LOAD\n
+wait 3
+dump result2
+expect 2 LOAD ERRORS 0  ok
+type 1 2 3 .S\n
+wait 0.3
+type -1 U. -5 . 7 4 .R 7 4 U.R\n
+wait 0.3
+dump print
+expect 2 65535 -5    7   7 ok
+type ." Hi" .( there) 42 EMIT 3 SPACES 65 EMIT\n
+wait 0.3
+dump text
+expect 2 Hithere*   A ok
+quit

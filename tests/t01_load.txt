@@ -1,0 +1,45 @@
+# LOAD and RUN of a text, errors with their line, the editor at the error
+wait 1.5
+load prog1.fs
+type RUN\n
+wait 1
+dump run
+expect 1 RUN 42 5 5040 Genio1
+expect 2 28  ok
+type L2\n
+wait 0.5
+dump l2
+expect 1 L2 0 1 10 11 20 21
+type L1 I\n
+wait 0.3
+dump compileonly
+expect 2 Compile only
+type 1 2 3 LOAD DEPTH .\n
+wait 1
+dump loadends
+expect 1 1 2 3 LOAD DEPTH .
+expect 2 ok
+type DEPTH .\n
+wait 0.3
+expect 2 DEPTH . 3  ok
+load prog2.fs
+type LOAD\n
+wait 1
+dump err
+expect 0 Line 2:
+expect 1 : BAD 2 . NOSUCH ;
+expect 2 NOSUCH ?
+type OK1 BAD\n
+wait 0.3
+dump after
+expect 1 OK1 BAD 1
+expect 2 BAD ?
+type \e
+wait 0.3
+press QUE SOY
+wait 0.3
+dump editor_at_error
+expect 0 : OK1 1 . ;
+expect 1 : BAD 2 . NOSUCH ;
+expectmem C151 01
+quit

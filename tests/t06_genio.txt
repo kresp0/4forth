@@ -1,0 +1,26 @@
+# The Genio words: GLYPH into CGRAM, EMIT of a glyph, AT-XY, PAGE, LED, MS, OFF at the prompt
+wait 1.5
+cmd CREATE G 4 C, 14 C, 31 C, 14 C, 4 C, 0 C, 0 C, 17 C, G 5 GLYPH PAGE 5 EMIT 8 2 AT-XY 42 EMIT
+wait 0.5
+dump glyph
+expectcgram 5 04 0E 1F 0E 04 00 00 11
+expectcgram 0 01 02 0E 11 1F 11 11 00
+expectmem C100 05
+expectmem C130 2A
+cmd 1 LED
+wait 0.3
+expectmem C153 20
+cmd 0 LED
+wait 0.3
+expectmem C153 00
+cmd 2000 MS
+wait 1.9
+dump ms_running
+expect 3 2000 MS
+wait 0.4
+dump ms
+expect 2 2000 MS  ok
+hold OFF 0.2
+wait 0.5
+expectpc 8000-BFFF
+quit

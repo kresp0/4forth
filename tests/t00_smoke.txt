@@ -1,0 +1,46 @@
+# Start-up screen and a few lines at the command line
+wait 1.5
+dump start
+expect 0 4Forth 1.0
+expect 1 after Hardy's Firth
+expect 2 2656 bytes free
+type 2 3 + .\n
+wait 0.3
+dump add
+expect 2 2 3 + . 5  ok
+type : SQ DUP * ;\n
+wait 0.3
+type 7 SQ .\n
+wait 0.3
+dump sq
+expect 1 : SQ DUP * ;  ok
+expect 2 7 SQ . 49  ok
+type -7 2 / . 7 3 MOD . -7 2 /MOD . .\n
+wait 0.3
+dump div
+expect 2 -3 1 -3 -1  ok
+type 1 2 3 .S\n
+wait 0.3
+dump dots
+expect 1 1 2 3 .S <3> 1 2 3
+type DROP DROP DROP DROP\n
+wait 0.3
+dump under
+expect 2 Stack empty
+type FOO\n
+wait 0.3
+dump undef
+expect 2 FOO ?
+type : T 5 0 DO I . LOOP ; T\n
+wait 0.3
+dump loop
+expect 2 0 1 2 3 4  ok
+type : T2 0 10 DO I . -3 +LOOP ; T2\n
+wait 0.3
+dump ploop
+expect 2 10 7 4 1  ok
+type HEX FF . DECIMAL $10 . %101 . 'A' .\n
+wait 0.3
+dump base
+expect 2 FF 16 5 65  ok
+quit

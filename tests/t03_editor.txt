@@ -1,0 +1,95 @@
+# The editor, the panel keys, the guide, input and paged output
+wait 1.5
+type \e
+wait 0.3
+dump editor_empty
+type : MAIN 3 0 DO\n
+type   I .\n
+type LOOP ;
+wait 0.3
+dump typed
+expect 0 : MAIN 3 0 DO
+expect 1   I .
+expect 2   LOOP ;
+press BASIC
+wait 1
+dump run_key
+expect 2 RUN 0 1 2  ok
+type \e
+wait 0.3
+type \u\u\[\r\r\x\x\x\xMAIN2
+wait 0.3
+dump edited
+expect 0 : MAIN2 3 0 DO
+press 2 JUGADORES
+wait 0.3
+dump deleted_line
+expect 0   I .
+press 1 JUGADOR
+type \b
+wait 0.3
+dump joined
+press EL NUMERO RELAMPAGO
+wait 1
+dump load_key
+expect 0 Line 2:
+expect 2 Compile only
+press PLURALES
+press VERBOS
+wait 0.3
+dump panel_text
+expect 3 DUP DROP
+type \b\b\b\b\b\b\b\b\b
+type DUP\h
+wait 0.5
+dump guide_dup
+expect 0 DUP
+expect 1 ( n -- n n )
+expect 2 Copies the top of
+type \n
+wait 0.3
+dump example
+expect 3 5 DUP . .
+type \n
+wait 0.3
+expect 2 5 DUP . . 5 5  ok
+type \u
+wait 0.3
+expect 3 5 DUP . .
+type \n
+wait 0.3
+type PAD 10 ACCEPT PAD SWAP TYPE\n
+wait 0.3
+type HOLA\n
+wait 0.5
+dump accept
+expect 2 HOLA HOLA ok
+type : K 3 0 DO KEY . LOOP ; K\n
+wait 0.3
+type AB\n
+wait 0.5
+dump key
+expect 2 65 66 13  ok
+type WORDS\n
+wait 1
+dump words1
+expect 0 WORDS
+type  
+wait 0.5
+dump words2
+hold RESPUESTA 0.3
+wait 0.5
+dump words_break
+expect 2 Break
+type \h
+wait 0.3
+dump index
+expect 0 >DUP
+type \u\u\n
+wait 0.3
+dump page
+expect 0 DROP
+type \e\e
+wait 0.3
+dump back
+quit

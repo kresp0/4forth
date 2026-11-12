@@ -1,0 +1,10 @@
+\ test program for LOAD and RUN
+: CONST CREATE , DOES> @ ;
+42 CONST ANSWER
+VARIABLE V  5 V !
+: FACT ( n -- n! ) DUP 1 > IF DUP 1- RECURSE * THEN ;
+: L1 100 0 DO I 5 = IF LEAVE THEN LOOP ;
+: L2 3 0 DO 2 0 DO J 10 * I + . LOOP LOOP ;
+: STR S" Genio" TYPE ;
+: W 1 BEGIN DUP 100 < WHILE 2* REPEAT ;
+: MAIN ANSWER . V @ . 7 FACT . STR W . ;

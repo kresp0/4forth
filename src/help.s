@@ -3,7 +3,7 @@
 ; line, the command line types it). EASM's help.s, with words made of any characters.
 ; The text comes from help.txt through gen_help.py (out/helpdata.s).
 ; Copyright (C) 2026 Santiago Crespo
-; SPDX-License-Identifier: GPL-3.0-or-later
+; SPDX-License-Identifier: 0BSD
 
 	.include "shared.inc"
 	.area	P2

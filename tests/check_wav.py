@@ -4,7 +4,7 @@
 # With --expect f1,f2,... it fails unless each frequency was measured within 1 %.
 # Usage: check_wav.py file.wav [--expect f1,f2,...]
 # Copyright (C) 2026 Santiago Crespo
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: 0BSD
 import struct
 import sys
 import wave

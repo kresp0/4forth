@@ -4,7 +4,7 @@
 # Lines starting with "#" are comments. An entry whose title is a word of the dictionary is that
 # word's page: gen_help.py checks that every word has one. Key names are the Spanish legends.
 # Copyright (C) 2026 Santiago Crespo
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: 0BSD
 
 @Start here
 4Forth: type Forth at the command line, or write a program in the editor and LOAD or RUN it.

@@ -3,7 +3,7 @@
 # error message appears. Examples that wait for a key, leave the command line or need the text are
 # skipped (they are covered by the other tests).
 # Copyright (C) 2026 Santiago Crespo
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: 0BSD
 import os
 
 SKIP = {"KEY", "KEY?", "ACCEPT", "NEW", "BYE", "EDIT", "LINE", "LOCATE", "LOAD", "RUN", "Key codes",

@@ -2,7 +2,7 @@
 ; in " ok"), its line editor (also ACCEPT's), the errors, and the words that go to the editor:
 ; EDIT, LINE n, LOCATE text, NEW. The line editor and the console handling are EASM's.
 ; Copyright (C) 2026 Santiago Crespo
-; SPDX-License-Identifier: GPL-3.0-or-later
+; SPDX-License-Identifier: 0BSD
 
 	.include "shared.inc"
 	.area	CODE

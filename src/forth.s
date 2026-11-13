@@ -7,7 +7,7 @@
 ; compiler are in assembly here; README.md explains what was kept from Firth and what is new.
 ; Copyright (C) 2026 Santiago Crespo
 ; Parts derived from Firth, Copyright (C) John Hardy, GPL-3.0 (third_party/firth/LICENSE)
-; SPDX-License-Identifier: GPL-3.0-or-later AND GPL-3.0-only
+; SPDX-License-Identifier: 0BSD AND GPL-3.0-only
 
 	.include "shared.inc"
 	.area	CODE

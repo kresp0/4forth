@@ -2,7 +2,7 @@
 ; (ANSWER breaks a running word, OFF switches off) and errors. The start-up and the trampolines are
 ; EASM's (from EBASIC).
 ; Copyright (C) 2026 Santiago Crespo
-; SPDX-License-Identifier: GPL-3.0-or-later
+; SPDX-License-Identifier: 0BSD
 
 	.include "shared.inc"
 	.area	CODE

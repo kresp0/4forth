@@ -6,7 +6,7 @@
 # the tests. EASM's mkcart.py without the API table.
 # Usage: mkcart.py page1.ihx page2.ihx out32.bin out64.bin page1.map page2.map out.sym usage.txt
 # Copyright (C) 2026 Santiago Crespo
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: 0BSD
 import re
 import sys
 

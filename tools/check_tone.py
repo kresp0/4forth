@@ -4,7 +4,7 @@
 # as forth.s's w_tone assumes when it converts Hz into turns. Fails the build otherwise.
 # Usage: check_tone.py out/io.lst
 # Copyright (C) 2026 Santiago Crespo
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: 0BSD
 import re
 import sys
 

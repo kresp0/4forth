@@ -17,7 +17,7 @@
 --   expectnotre <pattern>               no row of the screen matches the Lua pattern
 -- In "type": \n ENTER, \e ANSWER, \b DELETE, \x DEL, \u \d up/down, \l \r LEFT/RIGHT, \[ \] start/end, \h HELP.
 -- Copyright (C) 2026 Santiago Crespo
--- SPDX-License-Identifier: GPL-3.0-or-later
+-- SPDX-License-Identifier: 0BSD
 local machine = manager.machine
 local mem = machine.devices[":maincpu"].spaces["program"]
 local out = io.open(os.getenv("EA_LOG") or "drive.log", "w")

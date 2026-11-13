@@ -216,8 +216,11 @@ Every test also watches each `OUT` of the cartridge: only ports 0x03 (with 0x80)
 * The text and the words are lost at power-off: there is no storage.
 
 ## Licence
-* GPL-3.0-or-later (`LICENSE`), Copyright (C) 2026 Santiago Crespo: 4Forth's own files and the parts
-  taken from EASM and EBASIC (same author and licence).
+* 0BSD (`LICENSE`), Copyright (C) 2026 Santiago Crespo: 4Forth's own files, code and documentation,
+  and the parts taken from EASM and EBASIC (same author and licence). You may use, copy, modify and
+  distribute them for any purpose, with or without fee, without conditions. Until 2026-11-13 they were
+  released under GPL-3.0-or-later; copies taken then may still be used under those terms.
 * `src/forth.s` is derived from Firth, Copyright (C) John Hardy, released under the GPL version 3
-  (`third_party/firth/`); that file is therefore GPL-3.0-only for Firth's part, and the cartridge as a
-  whole is distributed under the GPL version 3.
+  (`third_party/firth/`); that file is GPL-3.0-only for Firth's part (`0BSD AND GPL-3.0-only`), so
+  the cartridge as a whole, and its images, are distributed under the GPL version 3
+  (`LICENSE-GPL-3.0`). Everything else can be reused under 0BSD on its own.

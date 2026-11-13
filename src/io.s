@@ -3,7 +3,7 @@
 ; EASM's io.s (taken from EBASIC, same author and licence), plus TONE, user glyphs and the raw output
 ; of CGRAM codes for EMIT.
 ; Copyright (C) 2026 Santiago Crespo
-; SPDX-License-Identifier: GPL-3.0-or-later
+; SPDX-License-Identifier: 0BSD
 
 	.include "shared.inc"
 	.area	CODE

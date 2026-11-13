@@ -7,11 +7,10 @@ console, keyboard, editor, guide and OFF handling are those of [EASM](https://gi
 and [EBASIC](https://github.com/kresp0/ebasic), which in turn follow the
 [text editor](https://github.com/kresp0/vtech-genio2000/tree/main/examples/text-editor).
 
-| Editor | RUN | Command line | Guide (AYUDA) |
-|---|---|---|---|
-| ![](docs/screen_editor.png) | ![](docs/screen_run.png) | ![](docs/screen_cmd.png) | ![](docs/screen_guide.png) |
+![MAME snapshots](screens_mame.png)
 
-*(MAME snapshots, 4x enlarged.)*
+*MAME snapshots, 4x enlarged: start, the editor with the demo program, RUN, the command line, WORDS and
+the guide (AYUDA) on DUP. `tests/sheet.sh` makes this picture from `tests/shots.txt`.*
 
 * **159 words**: stack, 16-bit arithmetic with 32-bit `UM* UM/MOD M* SM/REM */`, comparisons, memory,
   `: ; CREATE DOES> VARIABLE CONSTANT IMMEDIATE POSTPONE RECURSE`, `IF ELSE THEN BEGIN UNTIL AGAIN

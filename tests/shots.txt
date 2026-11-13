@@ -1,5 +1,6 @@
-# Snapshots for the README (not a test)
+# Snapshots for the README sheet (tests/sheet.sh): start, editor, RUN, command line, WORDS, guide
 wait 1.5
+snap
 load demo.fs
 type \e
 wait 0.3
@@ -12,6 +13,11 @@ snap
 type : SQ DUP * ; 12 SQ .\n
 wait 1
 snap
+type WORDS\n
+wait 1
+snap
+type \e
+wait 0.5
 type DUP\h
 wait 0.5
 snap
